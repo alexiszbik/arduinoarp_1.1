@@ -32,7 +32,12 @@ void setup(void) {
   
     for (int i = 0; i < NOTE_COUNT; i++) {
         notes[i] = false;
-        pinMode(NOTE_PIN_START + i, INPUT_PULLUP);
+        byte pin = NOTE_PIN_START + i;
+        if (pin == 13) {
+            pinMode(pin, INPUT);
+        } else {
+            pinMode(pin, INPUT_PULLUP);
+        }
     }
 }
 
@@ -67,7 +72,12 @@ void loop(void) {
     }
 
     for (int i = 0; i < NOTE_COUNT; i++) {
-        notes[i] = digitalRead(NOTE_PIN_START + i) == HIGH;
+        byte pin = NOTE_PIN_START + i;
+        if (pin == 13) {
+            notes[i] = digitalRead(pin) == HIGH;
+        } else {
+            notes[i] = digitalRead(pin) == LOW;
+        }
     }
 
     bool trueNoteExist = false;
